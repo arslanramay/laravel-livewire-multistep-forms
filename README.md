@@ -109,7 +109,7 @@ Contributions are welcome! Please fork the repository and create a pull request 
 
 ## License
 
-This project is open-source and available under the [MIT License](https://opensource.org/licenses/MIT).
+This project is open-source and available under the [MIT License](https://opensource.org/licenses/MIT). Developed by [Arslan Ramay](https://github.com/arslanramay)
 
 ---
 For any issues or questions, feel free to reach out or create an issue on the GitHub repository.
