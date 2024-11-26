@@ -18,8 +18,13 @@ class Subscriber extends Model
         'subscription_type'
     ];
 
-    public function subscription()
+    public function addresses()
     {
-        return $this->hasOne(Address::class);
+        return $this->hasMany(Address::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 }
