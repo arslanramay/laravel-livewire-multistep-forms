@@ -8,7 +8,7 @@
                         @if($currentStep > 1)
                             <i class="fa fa-check"></i>
                         @else
-                            1
+                            10
                         @endif
                     </a>
                 </div>

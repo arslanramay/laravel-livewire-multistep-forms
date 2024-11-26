@@ -11,4 +11,13 @@ Route::get('/', function () {
 // Routes for User Onboarding form
 Route::get('/subscriber-onboarding-form', function() {
     return view('subscriberform');
+    // return view('contactform');
+});
+
+Route::get('/subscribe', function() {
+    return view('livewire/subscribform');
+});
+
+Route::get('/contactform', function() {
+    return view('contactform');
 });

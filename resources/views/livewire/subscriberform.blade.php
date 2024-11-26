@@ -22,67 +22,63 @@
                     </a>
                 </div>
                 <div class="stepwizard-step">
-                    <a href="#step-3" type="button" class="btn btn-circle">3</a>
+                    <a href="#step-3" type="button" class="btn btn-circle">
+                        @if($currentStep > 3)
+                            <i class="fa fa-check"></i>
+                        @else
+                            3
+                        @endif
+                    </a>
+                </div>
+                <div class="stepwizard-step">
+                    <a href="#step-4" type="button" class="btn btn-circle">4</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- BEGIN STEP 1 Wrapper -->
-    <div id="step-1" class="{{ $currentStep != 1? 'd-none' :'' }}" >
+    <!-- BEGIN STEP 1: Personal Details -->
+    <div id="step-1" class="{{ $currentStep != 1 ? 'd-none' : '' }}">
         <div class="container mt-4">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    @if (session()->has('message'))
-                        <div class="alert alert-success">
-                            {{ session('message') }}
-                        </div>
-                    @endif
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            User Register
+                            Personal Details
                         </div>
                         <div class="card-body">
                             <div class="form-group row">
-                                <div class="col-md-6">
-                                    <label for ="fname">First Name:</label>
+                                <label for="name" class="col-md-4">Name:</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="name" id="name" class="form-control" wire:model="personalDetails.name" />
                                 </div>
-                                <div class="col-md-6 ">
-                                    <input type="text" name="fname" class="form-control" wire:model="fname" />
-                                </div>
-                                @error('fname')<span class="text text-danger">{{ $message }}</span> @enderror
+                                @error('personalDetails.name')<span class="text-danger">{{ __('Name is required') }}</span>@enderror
                             </div>
                             <div class="form-group row mt-4">
-                                <div class="col-md-6">
-                                    <label for ="lname">Last Name:</label>
+                                <label for="email" class="col-md-4">Email:</label>
+                                <div class="col-md-8">
+                                    <input type="email" id="email" class="form-control" wire:model="personalDetails.email" />
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="text" name="lname" class="form-control" wire:model="lname" />
-                                </div>
-                                @error('lname')<span class="text text-danger">{{ $message }}</span> @enderror
+                                @error('personalDetails.email')<span class="text-danger">{{ __('Email is required') }}</span>@enderror
                             </div>
                             <div class="form-group row mt-4">
-                                <div class="col-md-6">
-                                    <label for ="dob">Date of Birth:</label>
+                                <label for="phone" class="col-md-4">Phone:</label>
+                                <div class="col-md-8">
+                                    <input type="text" id="phone" class="form-control" wire:model="personalDetails.phone" />
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="date" name="dob" class="form-control" wire:model="dob" max="{{ date('Y-m-d') }}"  />
-                                </div>
-                                @error('dob')<span class="text text-danger">{{ $message }}</span> @enderror
+                                @error('personalDetails.phone')<span class="text-danger">{{ __('Phone is required') }}</span>@enderror
                             </div>
                             <div class="form-group row mt-4">
-                                <div class="col-md-6">
-                                    <label for ="address">Address</label>
+                                <label class="col-md-4">Subscription Type:</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" wire:model="isPremium">
+                                        <option value="0">Free</option>
+                                        <option value="1">Premium</option>
+                                    </select>
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="text" name="address" class="form-control" wire:model="address" />
-                                </div>
-                                @error('address')<span class="text text-danger">{{ $message }}</span> @enderror
                             </div>
-                            <div class="form-group row mt-4">
-                                <div class="col d-flex justify-content-end">
-                                    <button class="btn btn-primary btn-sm" wire:click="firstsubmit">Next</button>
-                                </div>
+                            <div class="d-flex justify-content-end mt-4">
+                                <button class="btn btn-primary btn-sm" wire:click="nextStep">Next</button>
                             </div>
                         </div>
                     </div>
@@ -90,55 +86,73 @@
             </div>
         </div>
     </div>
-    <!-- END STEP 1 Wrapper -->
+    <!-- END STEP 1 -->
 
-    <!-- BEGIN STEP 2 Wrapper -->
-    <div id="step-2" class="{{ $currentStep != 2? 'd-none' :'' }}">
+    <!-- BEGIN STEP 2: Address Details -->
+    {{-- <div id="step-2" class="{{ $currentStep != 2 ? 'd-none' : '' }}"> --}}
+    <div id="step-2" class="{{ $currentStep < 2 ? 'd-none' : '' }}">
         <div class="container mt-4">
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            User Register
+                            Address Details
                         </div>
                         <div class="card-body">
-
                             <div class="form-group row">
-                                <div class="col-md-6">
-                                    <label for ="email">Email:</label>
+                                <label for="address_line1" class="col-md-4">Address Line 1:</label>
+                                <div class="col-md-8">
+                                    <input type="text" id="address_line1" class="form-control" wire:model="addressDetails.address_line1" />
                                 </div>
-                                <div class="col-md-6 ">
-                                    <input type="email" name="email" class="form-control" wire:model="email" />
-                                </div>
-                                @error('email')<span class="text text-danger">{{ $message }}</span> @enderror
+                                {{-- @error('addressDetails.address_line1')<span class="text-danger">{{ $message }}</span>@enderror --}}
+                                @error('addressDetails.address_line1')<span class="text-danger">{{ __('Address Line 1 is required') }}</span>@enderror
                             </div>
                             <div class="form-group row mt-4">
-                                <div class="col-md-6">
-                                    <label for ="conatctno">Contact no:</label>
+                                <label for="address_line2" class="col-md-4">Address Line 2:</label>
+                                <div class="col-md-8">
+                                    <input type="text" id="address_line2" class="form-control" wire:model="addressDetails.address_line2" />
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="number" name="conatctno" class="form-control" wire:model="conatctno" />
-                                </div>
-                                @error('conatctno')<span class="text text-danger">{{ $message }}</span> @enderror
                             </div>
                             <div class="form-group row mt-4">
-                                <div class="col-md-6">
-                                    <label for ="photo">Photo:</label>
+                                <label for="city" class="col-md-4">City:</label>
+                                <div class="col-md-8">
+                                    <input type="text" id="city" class="form-control" wire:model="addressDetails.city" />
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="file" name="photo" class="form-control" wire:model="photo" />
-                                </div>
-                                @if($photo)
-                                    <img src="{{ $photo->temporaryUrl() }}" alt="Preview" style="max-width: 100px; max-height: 100px; margin-top: 10px;">
-                                @endif
-                                @error('photo')<span class="text text-danger">{{ $message }}</span> @enderror
+                                {{-- @error('addressDetails.city')<span class="text-danger">{{ $message }}</span>@enderror --}}
+                                @error('addressDetails.city')<span class="text-danger">{{ __('City is required') }}</span>@enderror
                             </div>
-
                             <div class="form-group row mt-4">
-                                <div class="col d-flex justify-content-between">
-                                    <button class="btn btn-success btn-sm" wire:click="back(1)">Back</button>
-                                    <button class="btn btn-primary btn-sm" wire:click="secondsubmit">Next</button>
+                                <label for="state" class="col-md-4">State:</label>
+                                <div class="col-md-8">
+                                    <input type="text" id="state" class="form-control" wire:model="addressDetails.state" />
                                 </div>
+                                {{-- @error('addressDetails.state')<span class="text-danger">{{ $message }}</span>@enderror --}}
+                                @error('addressDetails.state')<span class="text-danger">{{ __('State is required') }}</span>@enderror
+                            </div>
+                            <div class="form-group row mt-4">
+                                <label for="postal_code" class="col-md-4">Postal Code:</label>
+                                <div class="col-md-8">
+                                    <input type="text" id="postal_code" class="form-control" wire:model="addressDetails.postal_code" />
+                                </div>
+                                {{-- @error('addressDetails.postal_code')<span class="text-danger">{{ $message }}</span>@enderror --}}
+                                @error('addressDetails.postal_code')<span class="text-danger">{{ __('Postal code is required') }}</span>@enderror
+                            </div>
+                            <div class="form-group row mt-4">
+                                <label for="country" class="col-md-4">Country:</label>
+                                <div class="col-md-8">
+                                    <select id="country" class="form-control" wire:model="addressDetails.country">
+                                        <option value="">Select</option>
+                                        <option value="US">United States</option>
+                                        <option value="CA">Canada</option>
+                                        <option value="UK">United Kingdom</option>
+                                    </select>
+                                </div>
+                                {{-- @error('addressDetails.country')<span class="text-danger">{{ $message }}</span>@enderror --}}
+                                @error('addressDetails.country')<span class="text-danger">{{ __('Country is required') }}</span>@enderror
+                            </div>
+                            <div class="d-flex justify-content-between mt-4">
+                                <button class="btn btn-success btn-sm" wire:click="previousStep">Back</button>
+                                <button class="btn btn-primary btn-sm" wire:click="nextStep">Next</button>
                             </div>
                         </div>
                     </div>
@@ -146,88 +160,70 @@
             </div>
         </div>
     </div>
-    <!-- END STEP 2 Wrapper -->
+    <!-- END STEP 2 -->
 
-    <!-- BEGIN STEP 3 Wrapper(Review Details) -->
-    <div id="step-3" class="{{ $currentStep != 3? 'd-none' :'' }}">
+    <!-- BEGIN STEP 3: Payment Details -->
+    <div id="step-3" class="{{ $currentStep != 3 ? 'd-none' : '' }}">
         <div class="container mt-4">
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-header bg-primary text-white">
-                            Review Details
+                            Payment Details
                         </div>
                         <div class="card-body">
                             <div class="form-group row">
-                                <div class="col-md-6">
-                                    <label for ="fname">First Name:</label>
+                                <label for="card_number" class="col-md-4">Card Number:</label>
+                                <div class="col-md-8">
+                                    <input type="text" id="card_number" class="form-control" wire:model="paymentDetails.card_number" />
                                 </div>
-                                <div class="col-md-6 ">
-                                    {{$fname}}
-                                </div>
+                                @error('paymentDetails.card_number')<span class="text-danger">{{ $message }}</span>@enderror
                             </div>
                             <div class="form-group row mt-4">
-                                <div class="col-md-6">
-                                    <label for ="lname">Last Name:</label>
+                                <label for="expiry_date" class="col-md-4">Expiry Date (MM/YY):</label>
+                                <div class="col-md-8">
+                                    <input type="text" id="expiry_date" class="form-control" wire:model="paymentDetails.expiry_date" />
                                 </div>
-                                <div class="col-md-6">
-                                    {{$lname}}
-                                </div>
+                                @error('paymentDetails.expiry_date')<span class="text-danger">{{ $message }}</span>@enderror
                             </div>
                             <div class="form-group row mt-4">
-                                <div class="col-md-6">
-                                    <label for ="dob">Date of Birth:</label>
+                                <label for="cvv" class="col-md-4">CVV:</label>
+                                <div class="col-md-8">
+                                    <input type="text" id="cvv" class="form-control" wire:model="paymentDetails.cvv" />
                                 </div>
-                                <div class="col-md-6">
-                                    {{$dob}}
-                                </div>
+                                @error('paymentDetails.cvv')<span class="text-danger">{{ $message }}</span>@enderror
                             </div>
-                            <div class="form-group row mt-4">
-                                <div class="col-md-6">
-                                    <label for ="address">Address</label>
-                                </div>
-                                <div class="col-md-6">
-                                    {{$address}}
-                                </div>
+                            <div class="d-flex justify-content-between mt-4">
+                                <button class="btn btn-success btn-sm" wire:click="previousStep">Back</button>
+                                <button class="btn btn-primary btn-sm" wire:click="nextStep">Next</button>
                             </div>
-                            <div class="form-group row mt-4">
-                                <div class="col-md-6">
-                                    <label for ="email">email</label>
-                                </div>
-                                <div class="col-md-6">
-                                    {{$email}}
-                                </div>
-                            </div>
-                            <div class="form-group row mt-4">
-                                <div class="col-md-6">
-                                    <label for ="address">conatct no</label>
-                                </div>
-                                <div class="col-md-6">
-                                    {{$conatctno}}
-                                </div>
-                            </div>
-                            <div class="form-group row mt-4">
-                                <div class="col-md-6">
-                                    <label for ="image">Image</label>
-                                </div>
-                                <div class="col-md-6">
-                                @if($photoPreview)
-                                    <img src="{{ $photoPreview }}" alt="Uploaded Photo" style="max-width: 100px; max-height: 100px;">
-                                @else
-                                    No photo uploaded
-                                @endif
-                                </div>
-                            </div>
-
-                            <button class="btn btn-success btn-sm" wire:click="back(2)">Back</button>
-                            <button class="btn btn-primary btn-sm" wire:click="submitdetails">Submit</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- END STEP 3 Wrapper -->
+    <!-- END STEP 3 -->
 
-</div>
+
+    <!-- BEGIN STEP 4 Wrapper -->
+    <div id="step-4" class="{{ $currentStep != 4 ? 'd-none' : '' }}">
+        <div class="container mt-4">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            Confirmation
+                        </div>
+                        <div class="card-body">
+                            <!-- Review details -->
+                            <button class="btn btn-success btn-sm" wire:click="previousStep">Back</button>
+                            <button class="btn btn-primary btn-sm" wire:click="submit">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END STEP 4 Wrapper -->
 </div>

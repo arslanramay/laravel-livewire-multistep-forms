@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Http\Livewire;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Subscriber;
+use App\Models\Address;
+use App\Models\Payment;
+use Exception;
 
 class Subscriberform extends Component
 {
@@ -32,19 +35,14 @@ class Subscriberform extends Component
     public $isPremium = false;
 
     protected $rules = [
-        // Personal Details
         'personalDetails.name'         => 'required|string|max:255',
         'personalDetails.email'        => 'required|email|unique:subscribers,email',
         'personalDetails.phone'        => 'required|numeric|digits:10',
-
-        // Address Details
-        'addressDetails.address_line1' => 'required|string|max:255',
-        'addressDetails.city'          => 'required|string|max:255',
-        'addressDetails.state'         => 'required|string|max:255',
-        'addressDetails.postal_code'   => 'required|string|max:10',
-        'addressDetails.country'       => 'required|string',
-
-        // Payment / Credit Card Details
+        'addressDetails.address_line1' => 'required_if:isPremium,true|string|max:255',
+        'addressDetails.city'          => 'required_if:isPremium,true|string|max:255',
+        'addressDetails.state'         => 'required_if:isPremium,true|string|max:255',
+        'addressDetails.postal_code'   => 'required_if:isPremium,true|string|max:10',
+        'addressDetails.country'       => 'required_if:isPremium,true|string',
         'paymentDetails.card_number'   => 'required_if:isPremium,true|numeric|digits_between:13,19',
         'paymentDetails.expiry_date'   => 'required_if:isPremium,true|date_format:m/y|after_or_equal:now',
         'paymentDetails.cvv'           => 'required_if:isPremium,true|numeric|digits:3',
