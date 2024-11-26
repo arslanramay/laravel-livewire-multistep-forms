@@ -5,12 +5,16 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Subscriber;
+use App\Models\Address;
+use App\Models\Payment;
 
 class Subscriberform extends Component
 {
     use WithFileUploads;
 
     public $currentStep = 1;
+    public $totalSteps  = 4;
+
     public $personalDetails = [
         'name'  => '',
         'email' => '',
@@ -59,18 +63,32 @@ class Subscriberform extends Component
     {
         $this->validate($this->getValidationRulesForStep());
 
-        if ($this->currentStep == 1 && !$this->isPremium) {
+        if ($this->currentStep == 1) {
+            $this->currentStep = 2;
+        } elseif ($this->currentStep == 2) {
+            if ($this->isPremium) {
+                $this->currentStep = 3;
+            } else {
+                $this->currentStep = 4; // Skip Step 3 if Free
+            }
+        } elseif ($this->currentStep == 3) {
             $this->currentStep = 4;
-        } elseif ($this->currentStep < 4) {
-            $this->currentStep++;
         }
     }
 
     public function previousStep()
     {
-        if ($this->currentStep > 1) {
+        if ($this->currentStep == 4 && !$this->isPremium) {
+            $this->currentStep = 2; // Skip Step 3 if Free
+        } elseif ($this->currentStep > 1) {
             $this->currentStep--;
         }
+    }
+
+    public function updatedIsPremium($value)
+    {
+        // Adjust total steps dynamically based on subscription type
+        $this->totalSteps = $value ? 4 : 3;
     }
 
     public function submit()
@@ -85,17 +103,17 @@ class Subscriberform extends Component
                 'subscription_type' => $this->isPremium ? 'premium' : 'free',
             ]);
 
-            if ($this->isPremium) {
-                Address::create([
-                    'subscriber_id' => $subscriber->id,
-                    'address_line1' => $this->addressDetails['address_line1'],
-                    'address_line2' => $this->addressDetails['address_line2'],
-                    'city'          => $this->addressDetails['city'],
-                    'state'         => $this->addressDetails['state'],
-                    'postal_code'   => $this->addressDetails['postal_code'],
-                    'country'       => $this->addressDetails['country'],
-                ]);
+            Address::create([
+                'subscriber_id' => $subscriber->id,
+                'address_line1' => $this->addressDetails['address_line1'],
+                'address_line2' => $this->addressDetails['address_line2'],
+                'city'          => $this->addressDetails['city'],
+                'state'         => $this->addressDetails['state'],
+                'postal_code'   => $this->addressDetails['postal_code'],
+                'country'       => $this->addressDetails['country'],
+            ]);
 
+            if ($this->isPremium) {
                 Payment::create([
                     'subscriber_id' => $subscriber->id,
                     'card_number'   => $this->paymentDetails['card_number'],

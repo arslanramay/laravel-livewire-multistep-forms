@@ -142,6 +142,7 @@
                                 <div class="col-md-8">
                                     <select id="country" class="form-control" wire:model="addressDetails.country">
                                         <option value="">Select</option>
+                                        <option value="AE">United Arab Emirates</option>
                                         <option value="US">United States</option>
                                         <option value="CA">Canada</option>
                                         <option value="UK">United Kingdom</option>
@@ -177,21 +178,24 @@
                                 <div class="col-md-8">
                                     <input type="text" id="card_number" class="form-control" wire:model="paymentDetails.card_number" />
                                 </div>
-                                @error('paymentDetails.card_number')<span class="text-danger">{{ $message }}</span>@enderror
+                                {{-- @error('paymentDetails.card_number')<span class="text-danger">{{ $message }}</span>@enderror --}}
+                                @error('paymentDetails.card_number')<span class="text-danger">{{ __('Card number is required') }}</span>@enderror
                             </div>
                             <div class="form-group row mt-4">
                                 <label for="expiry_date" class="col-md-4">Expiry Date (MM/YY):</label>
                                 <div class="col-md-8">
                                     <input type="text" id="expiry_date" class="form-control" wire:model="paymentDetails.expiry_date" />
                                 </div>
-                                @error('paymentDetails.expiry_date')<span class="text-danger">{{ $message }}</span>@enderror
+                                {{-- @error('paymentDetails.expiry_date')<span class="text-danger">{{ $message }}</span>@enderror --}}
+                                @error('paymentDetails.expiry_date')<span class="text-danger">{{ __('Expiry date is required') }}</span>@enderror
                             </div>
                             <div class="form-group row mt-4">
                                 <label for="cvv" class="col-md-4">CVV:</label>
                                 <div class="col-md-8">
                                     <input type="text" id="cvv" class="form-control" wire:model="paymentDetails.cvv" />
                                 </div>
-                                @error('paymentDetails.cvv')<span class="text-danger">{{ $message }}</span>@enderror
+                                {{-- @error('paymentDetails.cvv')<span class="text-danger">{{ $message }}</span>@enderror --}}
+                                @error('paymentDetails.cvv')<span class="text-danger">{{ __('CVV code is required') }}</span>@enderror
                             </div>
                             <div class="d-flex justify-content-between mt-4">
                                 <button class="btn btn-success btn-sm" wire:click="previousStep">Back</button>
