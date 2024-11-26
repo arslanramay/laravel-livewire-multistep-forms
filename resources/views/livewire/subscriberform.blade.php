@@ -222,8 +222,76 @@
                             Confirmation
                         </div>
                         <div class="card-body">
-                            <button class="btn btn-success btn-sm" wire:click="previousStep">Back</button>
-                            <button class="btn btn-primary btn-sm" wire:click="submit">Submit</button>
+                            <h5>Personal Details</h5>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Name</th>
+                                    <td>{{ $personalDetails['name'] }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>{{ $personalDetails['email'] }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Phone</th>
+                                    <td>{{ $personalDetails['phone'] }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Subscription Type</th>
+                                    <td>{{ $isPremium ? 'Premium' : 'Free' }}</td>
+                                </tr>
+                            </table>
+
+                            <h5>Address Details</h5>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Address Line 1</th>
+                                    <td>{{ $addressDetails['address_line1'] }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Address Line 2</th>
+                                    <td>{{ $addressDetails['address_line2'] ?: 'N/A' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>City</th>
+                                    <td>{{ $addressDetails['city'] }}</td>
+                                </tr>
+                                <tr>
+                                    <th>State</th>
+                                    <td>{{ $addressDetails['state'] }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Postal Code</th>
+                                    <td>{{ $addressDetails['postal_code'] }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Country</th>
+                                    <td>{{ $addressDetails['country'] }}</td>
+                                </tr>
+                            </table>
+
+                            @if($isPremium)
+                            <h5>Payment Details</h5>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Card Number</th>
+                                    <td>**** **** **** {{ substr($paymentDetails['card_number'], -4) }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Expiry Date</th>
+                                    <td>{{ $paymentDetails['expiry_date'] }}</td>
+                                </tr>
+                                <tr>
+                                    <th>CVV</th>
+                                    <td>***</td>
+                                </tr>
+                            </table>
+                            @endif
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button class="btn btn-success btn-sm" wire:click="previousStep">Back</button>
+                                <button class="btn btn-primary btn-sm" wire:click="submit">Submit</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -231,4 +299,5 @@
         </div>
     </div>
     <!-- END STEP 4 -->
+
 </div>

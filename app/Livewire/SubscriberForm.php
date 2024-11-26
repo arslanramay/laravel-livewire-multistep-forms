@@ -99,9 +99,13 @@ class Subscriberform extends Component
 
     public function submit()
     {
-        try {
-            $this->validate($this->getValidationRulesForStep());
+        // Validate all steps
+        $this->validate($this->rules);
 
+        try {
+            // $this->validate($this->getValidationRulesForStep());
+
+            // Save Subscriber
             $subscriber = Subscriber::create([
                 'name'              => $this->personalDetails['name'],
                 'email'             => $this->personalDetails['email'],
@@ -109,6 +113,7 @@ class Subscriberform extends Component
                 'subscription_type' => $this->isPremium ? 'premium' : 'free',
             ]);
 
+            // Save Address
             Address::create([
                 'subscriber_id' => $subscriber->id,
                 'address_line1' => $this->addressDetails['address_line1'],
@@ -119,6 +124,7 @@ class Subscriberform extends Component
                 'country'       => $this->addressDetails['country'],
             ]);
 
+            // Save Payment Details (if Premium)
             if ($this->isPremium) {
                 Payment::create([
                     'subscriber_id' => $subscriber->id,
@@ -130,7 +136,7 @@ class Subscriberform extends Component
 
             session()->flash('message', 'Registration complete!');
             return redirect()->route('home');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             session()->flash('error', 'An error occurred: ' . $e->getMessage());
         }
     }
