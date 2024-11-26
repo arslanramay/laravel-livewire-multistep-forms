@@ -54,11 +54,21 @@ class Subscriberform extends Component
         'paymentDetails.cvv'           => 'required_if:isPremium,true|numeric|digits:3',
     ];
 
+    /**
+     * Renders Multistep form on the frontend
+     *
+     * @return view
+     */
     public function render()
     {
         return view('livewire.subscriberform');
     }
 
+    /**
+     * Handler for Next Step in the form
+     *
+     * @return void
+     */
     public function nextStep()
     {
         $this->validate($this->getValidationRulesForStep());
@@ -76,6 +86,11 @@ class Subscriberform extends Component
         }
     }
 
+    /**
+     * Handler for Previous Step in the form
+     *
+     * @return void
+     */
     public function previousStep()
     {
         if ($this->currentStep == 4 && !$this->isPremium) {
@@ -85,9 +100,14 @@ class Subscriberform extends Component
         }
     }
 
+    /**
+     * Adjusts total Steps dynamically based on the Subscription type
+     *
+     * @param int $value
+     * @return void
+     */
     public function updatedIsPremium($value)
     {
-        // Adjust total steps dynamically based on subscription type
         $this->totalSteps = $value ? 4 : 3;
     }
 
@@ -97,15 +117,20 @@ class Subscriberform extends Component
     }
 
 
+    /**
+     * Main function to handle Form submission and save form data in the Database
+     *
+     * @return void
+     */
     public function submit()
     {
-        // Validate all steps
+        // Validate all steps in one go before submit
         $this->validate($this->rules);
 
         try {
             // $this->validate($this->getValidationRulesForStep());
 
-            // Save Subscriber
+            // Save Subscriber's Personal Details
             $subscriber = Subscriber::create([
                 'name'              => $this->personalDetails['name'],
                 'email'             => $this->personalDetails['email'],
@@ -113,7 +138,7 @@ class Subscriberform extends Component
                 'subscription_type' => $this->isPremium ? 'premium' : 'free',
             ]);
 
-            // Save Address
+            // Save Address Data
             Address::create([
                 'subscriber_id' => $subscriber->id,
                 'address_line1' => $this->addressDetails['address_line1'],
@@ -134,13 +159,18 @@ class Subscriberform extends Component
                 ]);
             }
 
-            session()->flash('message', 'Registration complete!');
+            session()->flash('message', 'User registration completed!');
             return redirect()->route('subscribers.list');
         } catch (\Exception $e) {
             session()->flash('error', 'An error occurred: ' . $e->getMessage());
         }
     }
 
+    /**
+     * Function to get form Validation Rules for all Steps
+     *
+     * @return void
+     */
     private function getValidationRulesForStep()
     {
         switch ($this->currentStep) {

@@ -8,7 +8,7 @@ class SubscriberController extends Controller
 {
     public function index()
     {
-        $subscribers = Subscriber::with('address', 'payment')->get(); // Load related address and payment data
+        $subscribers = Subscriber::with('address', 'payment')->get(); // Load related Address and Payment data
 
         return view('subscribers-list', compact('subscribers'));
     }
