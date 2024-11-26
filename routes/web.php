@@ -10,3 +10,8 @@ Route::get('/', function () {
 
 Route::get('/counter', Counter::class);
 Route::get('/post/new', CreatePost::class);
+
+Route::get('/contactform', function(){
+    // return view('livewire.contactform');
+    return view('contactform');
+});
