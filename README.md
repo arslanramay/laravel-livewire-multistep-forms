@@ -1,66 +1,114 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# StreamPlus Multi-Step Forms
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel Livewire-based multi-step form application for collecting user subscription details. This project supports both **Free** and **Premium** subscription types, guiding users through multiple steps to collect Personal Details, Address Details, and Payment Details (for Premium users).
 
-## About Laravel
+## Project Overview
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project is designed to demonstrate a clean implementation of a multi-step form with dynamic navigation and validation. The following steps are included:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. **Personal Details**
+   - Name, Email, Phone, and Subscription Type selection.
+2. **Address Details**
+   - Address Line 1, Address Line 2, City, State, Postal Code, Country.
+3. **Payment Details** (for Premium users only)
+   - Card Number, Expiry Date, CVV.
+4. **Confirmation**
+   - Displays all the user-submitted details for review before final submission.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Key Features
 
-## Learning Laravel
+- Dynamic step navigation.
+- Step-specific validation.
+- Secure handling of sensitive user data (e.g., masking payment details).
+- Organized code structure using Livewire components.
+- Proper relationships between database models.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Main Files
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Livewire Components
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Subscriberform**: Handles the multi-step form logic and data submission.
+   - File Path: `app/Livewire/Subscriberform.php`
 
-## Laravel Sponsors
+### Blade Views
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. **Multi-step Form View**: Renders the multi-step form UI.
+   - File Path: `resources/views/livewire/subscriberform.blade.php`
 
-### Premium Partners
+2. **Subscribers List View**: Displays a list of submitted subscribers.
+   - File Path: `resources/views/subscribers-list.blade.php`
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Models
+
+1. **Subscriber**: Represents a user in the subscription system.
+   - File Path: `app/Models/Subscriber.php`
+2. **Address**: Stores user address details.
+   - File Path: `app/Models/Address.php`
+3. **Payment**: Stores user payment details for Premium subscriptions.
+   - File Path: `app/Models/Payment.php`
+
+## Laravel Project Setup Instructions
+
+To set up this project locally, follow these steps:
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/arslanramay/streamplus-multistep-forms.git
+   cd streamplus-multistep-forms
+   ```
+
+2. **Install Dependencies**:
+   ```bash
+   composer install
+   npm install
+   npm run dev
+   ```
+
+3. **Set Up Environment Variables**:
+   - Copy `.env.example` to `.env`.
+   ```bash
+   cp .env.example .env
+   ```
+   - Configure database credentials and other necessary settings in the `.env` file.
+
+4. **Generate Application Key**:
+   ```bash
+   php artisan key:generate
+   ```
+
+5. **Run Migrations**:
+   ```bash
+   php artisan migrate
+   ```
+
+6. **Start the Development Server**:
+   ```bash
+   php artisan serve
+   ```
+
+7. **Access the Application**:
+   - Open your browser and navigate to `http://127.0.0.1:8000`.
+
+8. **Testing the Application**:
+   - Complete the multi-step form for Free and Premium subscriptions.
+   - After submission, verify the data on the **Subscribers List** page by navigating to `/subscribers-list`.
+
+## Usage
+
+- Start by selecting a subscription type (Free or Premium) in Step 1.
+- Fill in the required details for each step.
+- For Premium subscriptions, enter payment details in Step 3.
+- Review all information on the Confirmation page (Step 4) before submitting.
+- Successfully submitted data will be stored in the database and displayed on the **Subscribers List** page.
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Contributions are welcome! Please fork the repository and create a pull request for any enhancements or bug fixes.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-source and available under the [MIT License](https://opensource.org/licenses/MIT).
+
+---
+For any issues or questions, feel free to reach out or create an issue on the GitHub repository.
+
