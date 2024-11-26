@@ -19,7 +19,7 @@ This project is designed to demonstrate a clean implementation of a multi-step u
    - Name, Email, Phone, and Subscription Type selection.
 2. **Address Details**
    - Address Line 1, Address Line 2, City, State, Postal Code, Country.
-3. **Payment Details** (for Premium users only)
+3. **Payment Details(Credit Card)** (for Premium subscription only)
    - Card Number, Expiry Date, CVV.
 4. **Confirmation**
    - Displays all the user-submitted details for review before final submission.
@@ -32,7 +32,7 @@ This project is designed to demonstrate a clean implementation of a multi-step u
 - Organized code structure using Livewire components.
 - Proper relationships between database models.
 - Validation rules for Email address and credit card details.
-- Encrypted credit crad details stored in the database.
+- Encrypted credit card details stored in the database.
 
 ## Main Files
 
@@ -112,9 +112,9 @@ To set up this Laravel project locally, follow these steps:
 - Review all information on the Confirmation page (Step 4) before submitting.
 - Successfully submitted data will be stored in the database and displayed on the **Subscribers List** page.
 
-## Contributing
+<!-- ## Contributing
 
-Contributions are welcome! Please fork the repository and create a pull request for any enhancements or bug fixes.
+Contributions are welcome! Please fork the repository and create a pull request for any enhancements or bug fixes. -->
 
 ## License
 
