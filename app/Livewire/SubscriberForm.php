@@ -91,6 +91,12 @@ class Subscriberform extends Component
         $this->totalSteps = $value ? 4 : 3;
     }
 
+    public function handleSubscriptionChange()
+    {
+        $this->totalSteps = $this->isPremium ? 4 : 3;
+    }
+
+
     public function submit()
     {
         try {

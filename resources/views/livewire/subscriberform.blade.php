@@ -73,7 +73,8 @@
                             <div class="form-group row mt-4">
                                 <label class="col-md-4">Subscription Type:</label>
                                 <div class="col-md-8">
-                                    <select class="form-control" wire:model="isPremium" wire:change="updatedIsPremium($event.target.value)">
+                                    {{-- <select class="form-control" wire:model="isPremium" wire:change="updatedIsPremium($event.target.value)"> --}}
+                                    <select class="form-control" wire:model="isPremium" wire:change="handleSubscriptionChange">
                                         <option value="0">Free</option>
                                         <option value="1">Premium</option>
                                     </select>
