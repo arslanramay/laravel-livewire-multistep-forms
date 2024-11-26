@@ -8,6 +8,7 @@ Route::get('/', function () {
 });
 
 
+// Routes for User Onboarding form
 Route::get('/subscriber-onboarding-form', function() {
     return view('subscriberform');
 });
