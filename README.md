@@ -1,10 +1,10 @@
-# StreamPlus Multi-Step Forms
+# StreamPlus Multi-Step User Onboarding Form Application
 
-A Laravel Livewire-based multi-step form application for collecting user subscription details. This project supports both **Free** and **Premium** subscription types, guiding users through multiple steps to collect Personal Details, Address Details, and Payment Details (for Premium users).
+A Laravel Livewire-based multi-step form application for collecting user subscription details. This application supports both **Free** and **Premium** subscription types, guiding users through multiple steps to collect Personal Details, Address Details, and Payment Details (for Premium users).
 
 ## Project Overview
 
-This project is designed to demonstrate a clean implementation of a multi-step form with dynamic navigation and validation. The following steps are included:
+This project is designed to demonstrate a clean implementation of a multi-step user registration form with dynamic navigation and validation on each step. The following steps are included:
 
 1. **Personal Details**
    - Name, Email, Phone, and Subscription Type selection.
@@ -22,6 +22,8 @@ This project is designed to demonstrate a clean implementation of a multi-step f
 - Secure handling of sensitive user data (e.g., masking payment details).
 - Organized code structure using Livewire components.
 - Proper relationships between database models.
+- Validation rules for Email address and credit card details.
+- Encrypted credit crad details stored in the database.
 
 ## Main Files
 
@@ -47,9 +49,9 @@ This project is designed to demonstrate a clean implementation of a multi-step f
 3. **Payment**: Stores user payment details for Premium subscriptions.
    - File Path: `app/Models/Payment.php`
 
-## Laravel Project Setup Instructions
+## Project Setup Instructions
 
-To set up this project locally, follow these steps:
+To set up this Laravel project locally, follow these steps:
 
 1. **Clone the Repository**:
    ```bash
