@@ -4,6 +4,15 @@ A Laravel Livewire-based multi-step form application for collecting user subscri
 
 ## Project Overview
 
+### Tech Stack
+
+This project uses the following technologies:
+
+- PHP 8
+- MySQL
+- Laravel 11
+- Livewire 3
+
 This project is designed to demonstrate a clean implementation of a multi-step user registration form with dynamic navigation and validation on each step. The following steps are included:
 
 1. **Personal Details**
