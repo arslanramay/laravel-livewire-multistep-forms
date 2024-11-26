@@ -1,17 +1,13 @@
 <?php
 
-use App\Livewire\Counter;
-use App\Livewire\CreatePost;
+use App\Livewire\SubscriberForm;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/counter', Counter::class);
-Route::get('/post/new', CreatePost::class);
 
-Route::get('/contactform', function(){
-    // return view('livewire.contactform');
-    return view('contactform');
+Route::get('/subscriber-onboarding-form', function() {
+    return view('subscriberform');
 });

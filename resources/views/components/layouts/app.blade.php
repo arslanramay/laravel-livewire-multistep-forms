@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>{{ $title ?? 'Laravel Livewire Playground' }}</title>
+        <title>{{ $title ?? 'StreamPlus User Onboarding Form' }}</title>
     </head>
     <body>
         {{ $slot }}

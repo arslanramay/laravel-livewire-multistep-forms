@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Userdetails;
 
-class Contactform extends Component
+class SubscriberForm extends Component
 {
     use WithFileUploads;
     public $fname, $lname, $dob, $address, $email, $conatctno, $photo;
@@ -15,7 +15,8 @@ class Contactform extends Component
 
     public function render()
     {
-        return view('livewire.contactform');
+        // return view('livewire.contactform');
+        return view('livewire.subscriberform');
     }
 
     public function back($step)
