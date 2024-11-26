@@ -2,6 +2,7 @@
 
 use App\Livewire\SubscriberForm;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SubscriberController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -11,13 +12,6 @@ Route::get('/', function () {
 // Routes for User Onboarding form
 Route::get('/subscriber-onboarding-form', function() {
     return view('subscriberform');
-    // return view('contactform');
 });
 
-Route::get('/subscribe', function() {
-    return view('livewire/subscribform');
-});
-
-Route::get('/contactform', function() {
-    return view('contactform');
-});
+Route::get('/subscribers-list', [SubscriberController::class, 'index'])->name('subscribers.list');

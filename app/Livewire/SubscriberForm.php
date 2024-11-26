@@ -135,7 +135,7 @@ class Subscriberform extends Component
             }
 
             session()->flash('message', 'Registration complete!');
-            return redirect()->route('home');
+            return redirect()->route('subscribers.list');
         } catch (\Exception $e) {
             session()->flash('error', 'An error occurred: ' . $e->getMessage());
         }

@@ -25,6 +25,9 @@ class Payment extends Model
         return decrypt($value);
     }
 
+    /**
+     * Define the inverse relationship to the subscriber.
+     */
     public function subscriber()
     {
         return $this->belongsTo(Subscriber::class);
