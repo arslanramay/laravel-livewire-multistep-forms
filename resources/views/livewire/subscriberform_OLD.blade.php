@@ -3,8 +3,8 @@
     <div class="stepwizard">
         <div class="container mt-4">
             <div class="stepwizard-row setup-panel">
-                <div class="stepwizard-step" wire:ignore>
-                    <a href="#step-1" type="button" class="btn btn-circle {{ $currentStep >= 1 ? 'btn-primary' : 'btn-light' }}">
+                <div class="stepwizard-step">
+                    <a href="#step-1" type="button" class="btn btn-circle">
                         @if($currentStep > 1)
                             <i class="fa fa-check"></i>
                         @else
@@ -12,8 +12,8 @@
                         @endif
                     </a>
                 </div>
-                <div class="stepwizard-step" wire:ignore>
-                    <a href="#step-2" type="button" class="btn btn-circle {{ $currentStep >= 2 ? 'btn-primary' : 'btn-light' }}">
+                <div class="stepwizard-step">
+                    <a href="#step-2" type="button" class="btn btn-circle">
                         @if($currentStep > 2)
                             <i class="fa fa-check"></i>
                         @else
@@ -21,19 +21,17 @@
                         @endif
                     </a>
                 </div>
-                @if($isPremium)
-                    <div class="stepwizard-step" wire:ignore>
-                        <a href="#step-3" type="button" class="btn btn-circle {{ $currentStep >= 3 ? 'btn-primary' : 'btn-light' }}">
-                            @if($currentStep > 3)
-                                <i class="fa fa-check"></i>
-                            @else
-                                3
-                            @endif
-                        </a>
-                    </div>
-                @endif
-                <div class="stepwizard-step" wire:ignore>
-                    <a href="#step-4" type="button" class="btn btn-circle {{ $currentStep == 4 ? 'btn-primary' : 'btn-light' }}">4</a>
+                <div class="stepwizard-step">
+                    <a href="#step-3" type="button" class="btn btn-circle">
+                        @if($currentStep > 3)
+                            <i class="fa fa-check"></i>
+                        @else
+                            3
+                        @endif
+                    </a>
+                </div>
+                <div class="stepwizard-step">
+                    <a href="#step-4" type="button" class="btn btn-circle">4</a>
                 </div>
             </div>
         </div>
@@ -52,7 +50,7 @@
                             <div class="form-group row">
                                 <label for="name" class="col-md-4">Name:</label>
                                 <div class="col-md-8">
-                                    <input type="text" id="name" class="form-control" wire:model="personalDetails.name" />
+                                    <input type="text" name="name" id="name" class="form-control" wire:model="personalDetails.name" />
                                 </div>
                                 @error('personalDetails.name')<span class="text-danger">{{ __('Name is required') }}</span>@enderror
                             </div>
@@ -73,7 +71,7 @@
                             <div class="form-group row mt-4">
                                 <label class="col-md-4">Subscription Type:</label>
                                 <div class="col-md-8">
-                                    <select class="form-control" wire:model="isPremium" wire:change="updatedIsPremium($event.target.value)">
+                                    <select class="form-control" wire:model="isPremium">
                                         <option value="0">Free</option>
                                         <option value="1">Premium</option>
                                     </select>
@@ -91,7 +89,8 @@
     <!-- END STEP 1 -->
 
     <!-- BEGIN STEP 2: Address Details -->
-    <div id="step-2" class="{{ $currentStep != 2 ? 'd-none' : '' }}">
+    {{-- <div id="step-2" class="{{ $currentStep != 2 ? 'd-none' : '' }}"> --}}
+    <div id="step-2" class="{{ $currentStep < 2 ? 'd-none' : '' }}">
         <div class="container mt-4">
             <div class="row justify-content-center">
                 <div class="col-md-8">
@@ -105,6 +104,7 @@
                                 <div class="col-md-8">
                                     <input type="text" id="address_line1" class="form-control" wire:model="addressDetails.address_line1" />
                                 </div>
+                                {{-- @error('addressDetails.address_line1')<span class="text-danger">{{ $message }}</span>@enderror --}}
                                 @error('addressDetails.address_line1')<span class="text-danger">{{ __('Address Line 1 is required') }}</span>@enderror
                             </div>
                             <div class="form-group row mt-4">
@@ -164,7 +164,6 @@
     <!-- END STEP 2 -->
 
     <!-- BEGIN STEP 3: Payment Details -->
-    @if($isPremium)
     <div id="step-3" class="{{ $currentStep != 3 ? 'd-none' : '' }}">
         <div class="container mt-4">
             <div class="row justify-content-center">
@@ -208,10 +207,10 @@
             </div>
         </div>
     </div>
-    @endif
     <!-- END STEP 3 -->
 
-    <!-- BEGIN STEP 4: Confirmation -->
+
+    <!-- BEGIN STEP 4 Wrapper -->
     <div id="step-4" class="{{ $currentStep != 4 ? 'd-none' : '' }}">
         <div class="container mt-4">
             <div class="row justify-content-center">
@@ -221,6 +220,7 @@
                             Confirmation
                         </div>
                         <div class="card-body">
+                            <!-- Review details -->
                             <button class="btn btn-success btn-sm" wire:click="previousStep">Back</button>
                             <button class="btn btn-primary btn-sm" wire:click="submit">Submit</button>
                         </div>
@@ -229,5 +229,5 @@
             </div>
         </div>
     </div>
-    <!-- END STEP 4 -->
+    <!-- END STEP 4 Wrapper -->
 </div>
