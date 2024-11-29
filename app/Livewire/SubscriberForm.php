@@ -35,6 +35,7 @@ class Subscriberform extends Component
     ];
     public $isPremium = false;
 
+    // Validation Rules
     protected $rules = [
         // Personal Details
         'personalDetails.name'         => 'required|string|max:255',
@@ -111,6 +112,11 @@ class Subscriberform extends Component
         $this->totalSteps = $value ? 4 : 3;
     }
 
+    /**
+     * Adjusts total Steps dynamically Subscription type changes
+     *
+     * @return void
+     */
     public function handleSubscriptionChange()
     {
         $this->totalSteps = $this->isPremium ? 4 : 3;
