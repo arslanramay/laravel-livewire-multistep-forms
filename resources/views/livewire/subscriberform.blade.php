@@ -68,7 +68,8 @@
                                 <div class="col-md-8">
                                     <input type="text" id="phone" class="form-control" wire:model="personalDetails.phone" />
                                 </div>
-                                @error('personalDetails.phone')<span class="text-danger">{{ __('Phone is required') }}</span>@enderror
+                                @error('personalDetails.phone')<span class="text-danger">{{ $message }}</span>@enderror
+                                {{-- @error('personalDetails.phone')<span class="text-danger">{{ __('Phone is required') }}</span>@enderror --}}
                             </div>
                             <div class="form-group row mt-4">
                                 <label class="col-md-4">Subscription Type:</label>
@@ -180,8 +181,10 @@
                                 <div class="col-md-8">
                                     <input type="text" id="card_number" class="form-control" wire:model="paymentDetails.card_number" />
                                 </div>
-                                {{-- @error('paymentDetails.card_number')<span class="text-danger">{{ $message }}</span>@enderror --}}
-                                @error('paymentDetails.card_number')<span class="text-danger">{{ __('Card number is required') }}</span>@enderror
+                                @error('paymentDetails.card_number')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                                {{-- @error('paymentDetails.card_number')<span class="text-danger">{{ __('Card number is required') }}</span>@enderror --}}
                             </div>
                             <div class="form-group row mt-4">
                                 <label for="expiry_date" class="col-md-4">Expiry Date (MM/YY):</label>

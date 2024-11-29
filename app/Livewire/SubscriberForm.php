@@ -7,6 +7,7 @@ use Livewire\WithFileUploads;
 use App\Models\Subscriber;
 use App\Models\Address;
 use App\Models\Payment;
+use App\Rules\ValidateCreditCard;
 
 class Subscriberform extends Component
 {
@@ -35,25 +36,69 @@ class Subscriberform extends Component
     ];
     public $isPremium = false;
 
+    // NOTE: This Rules array is not needed anymore as we have moved validation rules into an overrided method rules() below
     // Validation Rules
-    protected $rules = [
-        // Personal Details
-        'personalDetails.name'         => 'required|string|max:255',
-        'personalDetails.email'        => 'required|email|unique:subscribers,email',
-        'personalDetails.phone'        => 'required|numeric|digits:10',
+    // protected $rules = [
+    //     // Personal Details
+    //     'personalDetails.name'         => 'required|string|max:255',
+    //     'personalDetails.email'        => 'required|email|unique:subscribers,email',
+    //     'personalDetails.phone'        => 'required|numeric|digits:10',
 
-        // Address Details
-        'addressDetails.address_line1' => 'required|string|max:255',
-        'addressDetails.city'          => 'required|string|max:255',
-        'addressDetails.state'         => 'required|string|max:255',
-        'addressDetails.postal_code'   => 'required|string|max:10',
-        'addressDetails.country'       => 'required|string',
+    //     // Address Details
+    //     'addressDetails.address_line1' => 'required|string|max:255',
+    //     'addressDetails.city'          => 'required|string|max:255',
+    //     'addressDetails.state'         => 'required|string|max:255',
+    //     'addressDetails.postal_code'   => 'required|string|max:10',
+    //     'addressDetails.country'       => 'required|string',
 
-        // Payment / Credit Card Details
-        'paymentDetails.card_number'   => 'required_if:isPremium,true|numeric|digits_between:13,19',
-        'paymentDetails.expiry_date'   => 'required_if:isPremium,true|date_format:m/y|after_or_equal:now',
-        'paymentDetails.cvv'           => 'required_if:isPremium,true|numeric|digits:3',
-    ];
+    //     // Payment / Credit Card Details
+    //     'paymentDetails.card_number'   => 'required_if:isPremium,true|numeric|digits_between:13,19|ValidateCreditCard',
+    //     // 'paymentDetails.card_number'   => ['required_if:isPremium,true', 'numeric', 'digits_between:13,19', new ValidateCreditCard],
+    //     'paymentDetails.expiry_date'   => 'required_if:isPremium,true|date_format:m/y|after_or_equal:now',
+    //     'paymentDetails.cvv'           => 'required_if:isPremium,true|numeric|digits:3',
+    // ];
+
+    /**
+     * This method overrides the default rules() method to adjust the new custom validation rule for Credit card
+     *
+     * @return void
+     */
+    public function rules()
+    {
+        switch ($this->currentStep) {
+            case 1:
+                return [
+                    // Personal Details
+                    'personalDetails.name'  => 'required|string|max:255',
+                    'personalDetails.email' => 'required|email|unique:subscribers,email',
+                    'personalDetails.phone' => 'required|numeric|digits:10',
+                ];
+            case 2:
+                return [
+                    // Address Details
+                    'addressDetails.address_line1' => 'required|string|max:255',
+                    'addressDetails.city'          => 'required|string|max:255',
+                    'addressDetails.state'         => 'required|string|max:255',
+                    'addressDetails.postal_code'   => 'required|string|max:10',
+                    'addressDetails.country'       => 'required|string',
+                ];
+            case 3:
+                return [
+                    // Payment Details (only for Premium users)
+                    // 'paymentDetails.card_number'   => ['required_if:isPremium,true', 'numeric', 'digits_between:13,19', new ValidateCreditCard],
+                    'paymentDetails.card_number' => [
+                        'required_if:isPremium,true',
+                        'numeric',
+                        'digits_between:13,19',
+                        new \App\Rules\ValidateCreditCard
+                    ],
+                    'paymentDetails.expiry_date'   => 'required_if:isPremium,true|date_format:m/y|after_or_equal:now',
+                    'paymentDetails.cvv'           => 'required_if:isPremium,true|numeric|digits:3',
+                ];
+            default:
+                return [];
+        }
+    }
 
     /**
      * Renders Multistep form on the frontend
@@ -70,22 +115,43 @@ class Subscriberform extends Component
      *
      * @return void
      */
+    // public function nextStep()
+    // {
+    //     $this->validate($this->getValidationRulesForStep());
+
+    //     if ($this->currentStep == 1) {
+    //         $this->currentStep = 2;
+    //     } elseif ($this->currentStep == 2) {
+    //         if ($this->isPremium) {
+    //             $this->currentStep = 3;
+    //         } else {
+    //             $this->currentStep = 4; // Skip Step 3 if Free
+    //         }
+    //     } elseif ($this->currentStep == 3) {
+    //         $this->currentStep = 4;
+    //     }
+    // }
+
+    /**
+     * Updated Handler for NextStep based on new custom validation rules method
+     *
+     * @return void
+     */
     public function nextStep()
     {
-        $this->validate($this->getValidationRulesForStep());
+        $this->validate($this->rules());
 
         if ($this->currentStep == 1) {
             $this->currentStep = 2;
-        } elseif ($this->currentStep == 2) {
-            if ($this->isPremium) {
-                $this->currentStep = 3;
-            } else {
-                $this->currentStep = 4; // Skip Step 3 if Free
-            }
+        } elseif ($this->currentStep == 2 && !$this->isPremium) {
+            $this->currentStep = 4;
+        } elseif ($this->currentStep == 2 && $this->isPremium) {
+            $this->currentStep = 3;
         } elseif ($this->currentStep == 3) {
             $this->currentStep = 4;
         }
     }
+
 
     /**
      * Handler for Previous Step in the form
