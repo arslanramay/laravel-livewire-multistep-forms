@@ -1,4 +1,4 @@
-# StreamPlus Multi-Step User Onboarding Form Application
+# Laravel Livewire Multi-Step User Onboarding Form Application
 
 A Laravel Livewire-based multi-step form application for collecting user subscription details. This application supports both **Free** and **Premium** subscription types, guiding users through multiple steps to collect Personal Details, Address Details, and Payment Details (for Premium users).
 
